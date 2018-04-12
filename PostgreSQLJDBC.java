@@ -1,11 +1,11 @@
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class PostgreSQLJDBC {
 
@@ -56,15 +56,18 @@ public class PostgreSQLJDBC {
 			String sqlValues_cup_matches =  "VALUES(?, ?, ?, ?, ?);";
 			String sqlValues_played_in = "VALUES(?, ?, ?, ?);";
 			String sqlValues = null;
-			
+			/*
 			for(int matchesCreated = 0; matchesCreated < numOfMatchesToInsert; matchesCreated++ ) {
 				sqlValues = "VALUES (2, 'Allen', 25, 'Texas', 15000.00 );";
 				sql = sqlInsert_cup_matches + sqlValues;
 				stmt.executeUpdate(sql);
 
-			}
+			}*/
+			sqlValues = "VALUES (1, 5, 2000, 4, 5.00 );";
+			sql = sqlInsert_cup_matches + sqlValues;
+			stmt.executeUpdate(sql);
 
-			sqlValues = "VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );";
+			sqlValues = "VALUES (1,'bas', 1996, 5 );";
 			sql = sqlInsert_played_in + sqlValues;
 			stmt.executeUpdate(sql);
 
@@ -79,10 +82,11 @@ public class PostgreSQLJDBC {
 		System.out.println("Records created successfully");
 	}
 	
-	public static String[][] readCSV(String filePath) throws IOException {
+	public static ArrayList<String> readCSV(String filePath) throws IOException {
 		
 		BufferedReader bf = new BufferedReader(new FileReader(filePath));
 		
+		String extractedRow = "";
 		
 		String line = "";
 		
