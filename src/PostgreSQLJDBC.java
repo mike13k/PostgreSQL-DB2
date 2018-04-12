@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 public class PostgreSQLJDBC {
 
     public static void main(String args[]) {
-        
+        /*
         Connection c = null;
         Statement stmt = null;
         
@@ -47,64 +47,10 @@ public class PostgreSQLJDBC {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
+        */
+    	
+    	insertForStepTwo();
         
-    }
-    
-//	public static void main(String args[]) {
-//
-//		/*
-//		 * Connection c = null; Statement stmt = null;
-//		 * 
-//		 * try { Class.forName("org.postgresql.Driver"); c =
-//		 * DriverManager.getConnection("jdbc:postgresql://localhost:5432/DB2Project2",
-//		 * "postgres", "010DB2");
-//		 * 
-//		 * c.setAutoCommit(false); System.out.println("Opened database successfully");
-//		 * 
-//		 * int mid, year, num_ratings; float rating; String round;
-//		 * 
-//		 * for (int i = 1; i <= 1000000; i++) {
-//		 * 
-//		 * mid = i; year = generateYear(); num_ratings = generateNumRatings(); rating =
-//		 * generateRating(); round = generateRound();
-//		 * 
-//		 * stmt = c.createStatement(); String sql =
-//		 * "INSERT INTO cup_matches (mid, round, year, num_ratings, rating) " +
-//		 * String.format("VALUES (%d, '%s', %d, %d, %f );", mid, round, year,
-//		 * num_ratings, rating); stmt.executeUpdate(sql);
-//		 * 
-//		 * }
-//		 * 
-//		 * stmt.close(); c.commit(); c.close();
-//		 * 
-//		 * } catch (Exception e) { e.printStackTrace();
-//		 * System.err.println(e.getClass().getName() + ": " + e.getMessage());
-//		 * System.exit(0); }
-//		 */
-//		
-//		insertForStepTwo();
-//
-//	}
-
-    private static float generateRating() {
-        float i = (float) (Math.random() * 11);
-        return i;
-    }
-
-    private static int generateNumRatings() {
-        int i = (int) (Math.random() * 100000001 );
-        return i;
-    }
-
-    private static int generateYear() {
-        boolean flag = false;
-        int i = 0;
-        while(!flag) {
-            i = (int) ((Math.random() * 89 ) + 1930);
-            if((i%4) == 0)
-                flag = true;
-        }
-        return i;
     }
     
 	public static void testConnection() {
@@ -200,6 +146,7 @@ public class PostgreSQLJDBC {
 		System.out.println("Records created successfully");
 	}
 	
+	
     private static String generateRound() {
         String round = "";
         int i = (int) (Math.random() * 5 );
@@ -211,6 +158,27 @@ public class PostgreSQLJDBC {
         case 4: round = "Final"; break;
         }
         return round;
+    }
+    
+    private static float generateRating() {
+        float i = (float) (Math.random() * 11);
+        return i;
+    }
+
+    private static int generateNumRatings() {
+        int i = (int) (Math.random() * 100000001 );
+        return i;
+    }
+
+    private static int generateYear() {
+        boolean flag = false;
+        int i = 0;
+        while(!flag) {
+            i = (int) ((Math.random() * 89 ) + 1930);
+            if((i%4) == 0)
+                flag = true;
+        }
+        return i;
     }
 
 	private static int generatePlayerPosition() {
