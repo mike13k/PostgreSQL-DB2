@@ -87,7 +87,7 @@ public class PostgreSQLJDBC {
 			stmt = c.createStatement();
 			String sql = null;
 
-			for (int matchesCreated = 0; matchesCreated < numOfMatchesToInsert; matchesCreated++) {
+			for (int matchesCreated = 1; matchesCreated <= numOfMatchesToInsert; matchesCreated++) {
 
 				m_mid = matchesCreated;
 				m_year = generateYear();
@@ -100,7 +100,7 @@ public class PostgreSQLJDBC {
 				stmt.executeUpdate(sql);
 				System.out.println("Something added!");
 				// Insert a batch of players
-				for (int playersCreated = 0; playersCreated < numOfPlayersPerMatch; playersCreated++) {
+				for (int playersCreated = 1; playersCreated <= numOfPlayersPerMatch; playersCreated++) {
 					if (numOfPlayersNamedPeleToBeInserted > 0 && (getRandomNumBetweenTenAndZero() <= 3
 							|| (numOfPlayersToInsert - playersCreated - numOfPlayersNamedPeleToBeInserted) <= 0)) {
 						// If Left number of players to be inserted just equal as the number needed for
@@ -108,7 +108,7 @@ public class PostgreSQLJDBC {
 						// Or If we are just in the middle, and it happens randomly we can insert a
 						// "Pele" Player
 						// Insert some "Pele"
-						p_name = "pele";
+						p_name = "pele" + playersCreated;
 						numOfPlayersNamedPeleToBeInserted--;
 					} else {
 						p_name = generatePlayerName();
@@ -119,7 +119,7 @@ public class PostgreSQLJDBC {
 					p_position = generatePlayerPosition();
 
 					sql = "INSERT INTO played_in (mid, name, year, position)  "
-							+ String.format("VALUES (%d, '%s', %d, %d, %f );", m_mid, p_name, p_year, p_position);
+							+ String.format("VALUES (%d, '%s', %d, %d);", m_mid, p_name, p_year, p_position);
 					stmt.executeUpdate(sql);
 				}
 				numOfPlayersToInsert -= numOfPlayersPerMatch;
