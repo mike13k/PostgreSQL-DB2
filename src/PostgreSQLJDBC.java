@@ -7,49 +7,12 @@ import java.sql.DriverManager;
 public class PostgreSQLJDBC {
 
     public static void main(String args[]) {
-        /*
-        Connection c = null;
-        Statement stmt = null;
-        
-        try {
-            Class.forName("org.postgresql.Driver");
-            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/DB2Project2", "postgres", "010DB2");
-            
-            c.setAutoCommit(false);
-            System.out.println("Opened database successfully");
-            
-            int mid, year, num_ratings;
-            float rating;
-            String round;
-
-            for(int i = 1; i <= 100; i++) {    
-                
-                mid = i;
-                year = generateYear();
-                num_ratings = generateNumRatings();
-                rating = generateRating();
-                round = generateRound();
-                
-                stmt = c.createStatement();
-                String sql = "INSERT INTO cup_matches (mid, round, year, num_ratings, rating) "
-                        + String.format("VALUES (%d, '%s', %d, %d, %f );", mid,round,year,num_ratings,rating);
-                stmt.executeUpdate(sql);
-            
-            }
-
-            stmt.close();
-            c.commit();
-            c.close();
-            
-            
-        } catch(Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
-        */
     	
-    	insertForStepTwo();
+    	//For Step 2
+    	insertIntoDatabase(2680, 58960, 118);
+    	
+    	//For last step (millions)
+    	//insertIntoDatabase(5000000, 110000000, 250000);
         
     }
     
@@ -68,17 +31,34 @@ public class PostgreSQLJDBC {
 
 
     /**
+     * Step 2:
 	 * Write a program that populates the database with 2,680 matches and 58,960
 	 * players. We are specifying an exact number of tuples in each table for
 	 * consistency and usage in different parts in the assignment. You must insert
 	 * players with name that contain the word “pele” 118 times.
+	 * 
+	 * Step Last:
+	 * 5 Mn matches, 110 Mn players
+	 * Write a program that populates an empty database with the number of rows above.
+	 * We are specifying an exact number of tuples in each table for consistency and usage in different
+	 * parts in the assignment. You must insert players with name that contain the word “pele” 250,000
+	 * times.
+	 *
+	 *	
+	 *
+	 * @params
+	 * numOfMatches : total number of matches to be inserted.
+	 * numOfPlayers : total number of players to be inserted.
+	 * numOfPele 	: number of players named 'Pele' to be inserted.
+	 * 
+	 * 
 	 */
 
-	public static void insertForStepTwo() {
+	public static void insertIntoDatabase(int numOfMatches, int numOfPlayers, int numOfPele) {
 
-		int numOfPlayersNamedPeleToBeInserted = 5;//118;
-		int numOfMatchesToInsert = 30;//2680;
-		int numOfPlayersToInsert = 1000;//58960;
+		int numOfPlayersNamedPeleToBeInserted = numOfPele;//118;
+		int numOfMatchesToInsert = numOfMatches;//2680;
+		int numOfPlayersToInsert = numOfPlayers;//58960;
 		int numOfPlayersPerMatch = numOfPlayersToInsert / numOfMatchesToInsert;
 
 		int m_mid, m_year, m_num_ratings;
@@ -122,7 +102,7 @@ public class PostgreSQLJDBC {
 						p_name = "pele" + playersCreated;
 						numOfPlayersNamedPeleToBeInserted--;
 					} else {
-						p_name = generatePlayerName();
+						p_name = generatePlayerName() + playersCreated;
 
 					}
 
@@ -161,7 +141,7 @@ public class PostgreSQLJDBC {
     }
     
     private static float generateRating() {
-        float i = (float) (Math.random() * 11);
+        float i = (float) (Math.random() * 10);
         return i;
     }
 
@@ -174,7 +154,7 @@ public class PostgreSQLJDBC {
         boolean flag = false;
         int i = 0;
         while(!flag) {
-            i = (int) ((Math.random() * 89 ) + 1930);
+            i = (int) ((Math.random() * 77 ) + 1942);
             if((i%4) == 0)
                 flag = true;
         }
@@ -182,8 +162,8 @@ public class PostgreSQLJDBC {
     }
 
 	private static int generatePlayerPosition() {
-		// TODO Auto-generated method stub
-		return 0;
+		int i = (int) (Math.random() * 5);
+        return i;
 	}
 
 	private static String generatePlayerName() {
