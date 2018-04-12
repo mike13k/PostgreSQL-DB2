@@ -17,7 +17,7 @@ public class PostgreSQLJDBC {
         
         try {
             Class.forName("org.postgresql.Driver");
-            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/cup", "postgres", "12121213");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/DB2Project2", "postgres", "010DB2");
             
             c.setAutoCommit(false);
             System.out.println("Opened database successfully");
