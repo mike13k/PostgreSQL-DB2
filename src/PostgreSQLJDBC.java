@@ -26,7 +26,7 @@ public class PostgreSQLJDBC {
             float rating;
             String round;
 
-            for(int i = 1; i <= 1000000; i++) {    
+            for(int i = 1; i <= 100; i++) {    
                 
                 mid = i;
                 year = generateYear();
@@ -68,18 +68,24 @@ public class PostgreSQLJDBC {
     }
 
     private static float generateRating() {
-        // TODO Auto-generated method stub
-        return 0;
+        float i = (float) (Math.random() * 11);
+        return i;
     }
 
     private static int generateNumRatings() {
-        // TODO Auto-generated method stub
-        return 0;
+        int i = (int) (Math.random() * 100000001 );
+        return i;
     }
 
     private static int generateYear() {
-        // TODO Auto-generated method stub
-        return 0;
+        boolean flag = false;
+        int i = 0;
+        while(!flag) {
+            i = (int) ((Math.random() * 89 ) + 1930);
+            if((i%4) == 0)
+                flag = true;
+        }
+        return i;
     }
     
     /**
