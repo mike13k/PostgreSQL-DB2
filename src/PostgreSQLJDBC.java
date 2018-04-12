@@ -1,10 +1,6 @@
 package src;
 
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -53,19 +49,42 @@ public class PostgreSQLJDBC {
         }
         
     }
-
-    private static String generateRound() {
-        String round = "";
-        int i = (int) (Math.random() * 5 );
-        switch(i) {
-        case 0: round = "32nd"; break;
-        case 1: round = "16th"; break;
-        case 2: round = "quarter_final"; break;
-        case 3: round = "SemiFinal"; break;
-        case 4: round = "Final"; break;
-        }
-        return round;
-    }
+    
+//	public static void main(String args[]) {
+//
+//		/*
+//		 * Connection c = null; Statement stmt = null;
+//		 * 
+//		 * try { Class.forName("org.postgresql.Driver"); c =
+//		 * DriverManager.getConnection("jdbc:postgresql://localhost:5432/DB2Project2",
+//		 * "postgres", "010DB2");
+//		 * 
+//		 * c.setAutoCommit(false); System.out.println("Opened database successfully");
+//		 * 
+//		 * int mid, year, num_ratings; float rating; String round;
+//		 * 
+//		 * for (int i = 1; i <= 1000000; i++) {
+//		 * 
+//		 * mid = i; year = generateYear(); num_ratings = generateNumRatings(); rating =
+//		 * generateRating(); round = generateRound();
+//		 * 
+//		 * stmt = c.createStatement(); String sql =
+//		 * "INSERT INTO cup_matches (mid, round, year, num_ratings, rating) " +
+//		 * String.format("VALUES (%d, '%s', %d, %d, %f );", mid, round, year,
+//		 * num_ratings, rating); stmt.executeUpdate(sql);
+//		 * 
+//		 * }
+//		 * 
+//		 * stmt.close(); c.commit(); c.close();
+//		 * 
+//		 * } catch (Exception e) { e.printStackTrace();
+//		 * System.err.println(e.getClass().getName() + ": " + e.getMessage());
+//		 * System.exit(0); }
+//		 */
+//		
+//		insertForStepTwo();
+//
+//	}
 
     private static float generateRating() {
         float i = (float) (Math.random() * 11);
@@ -88,6 +107,20 @@ public class PostgreSQLJDBC {
         return i;
     }
     
+	public static void testConnection() {
+		Connection c = null;
+		try {
+			Class.forName("org.postgresql.Driver");
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/DB2Project2", "postgres", "010DB2");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		System.out.println("Opened database successfully");
+	}
+
+
     /**
 	 * Write a program that populates the database with 2,680 matches and 58,960
 	 * players. We are specifying an exact number of tuples in each table for
@@ -96,41 +129,66 @@ public class PostgreSQLJDBC {
 	 */
 
 	public static void insertForStepTwo() {
-		
-		int numOfPlayersNamedPele = 118;
-		int numOfMatchesToInsert = 2680;
-		int numOfPlayersToInsert = 58960;
-		
+
+		int numOfPlayersNamedPeleToBeInserted = 5;//118;
+		int numOfMatchesToInsert = 30;//2680;
+		int numOfPlayersToInsert = 1000;//58960;
+		int numOfPlayersPerMatch = numOfPlayersToInsert / numOfMatchesToInsert;
+
+		int m_mid, m_year, m_num_ratings;
+		float m_rating;
+		String m_round;
+		int p_year, p_position;
+		String p_name;
+
 		Connection c = null;
 		Statement stmt = null;
 		try {
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testdb", "manisha", "123");
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/DB2Project2", "postgres", "010DB2");
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
 
 			stmt = c.createStatement();
 			String sql = null;
-			String sqlInsert_cup_matches = "INSERT INTO cup_matches (mid,round,year,num_ratings, rating) ";
-			String sqlInsert_played_in = "INSERT INTO played_in (mid,name,year,position) ";
-			String sqlValues_cup_matches =  "VALUES(?, ?, ?, ?, ?);";
-			String sqlValues_played_in = "VALUES(?, ?, ?, ?);";
-			String sqlValues = null;
-			/*
-			for(int matchesCreated = 0; matchesCreated < numOfMatchesToInsert; matchesCreated++ ) {
-				sqlValues = "VALUES (2, 'Allen', 25, 'Texas', 15000.00 );";
-				sql = sqlInsert_cup_matches + sqlValues;
+
+			for (int matchesCreated = 0; matchesCreated < numOfMatchesToInsert; matchesCreated++) {
+
+				m_mid = matchesCreated;
+				m_year = generateYear();
+				m_num_ratings = generateNumRatings();
+				m_rating = generateRating();
+				m_round = generateRound();
+
+				sql = "INSERT INTO cup_matches (mid, round, year, num_ratings, rating) " + String
+						.format("VALUES (%d, '%s', %d, %d, %f );", m_mid, m_round, m_year, m_num_ratings, m_rating);
 				stmt.executeUpdate(sql);
+				System.out.println("Something added!");
+				// Insert a batch of players
+				for (int playersCreated = 0; playersCreated < numOfPlayersPerMatch; playersCreated++) {
+					if (numOfPlayersNamedPeleToBeInserted > 0 && (getRandomNumBetweenTenAndZero() <= 3
+							|| (numOfPlayersToInsert - playersCreated - numOfPlayersNamedPeleToBeInserted) <= 0)) {
+						// If Left number of players to be inserted just equal as the number needed for
+						// "Pele" players,
+						// Or If we are just in the middle, and it happens randomly we can insert a
+						// "Pele" Player
+						// Insert some "Pele"
+						p_name = "pele";
+						numOfPlayersNamedPeleToBeInserted--;
+					} else {
+						p_name = generatePlayerName();
 
-			}*/
-			sqlValues = "VALUES (1, 5, 2000, 4, 5.00 );";
-			sql = sqlInsert_cup_matches + sqlValues;
-			stmt.executeUpdate(sql);
+					}
 
-			sqlValues = "VALUES (1,'bas', 1996, 5 );";
-			sql = sqlInsert_played_in + sqlValues;
-			stmt.executeUpdate(sql);
+					p_year = generateYear();
+					p_position = generatePlayerPosition();
 
+					sql = "INSERT INTO played_in (mid, name, year, position)  "
+							+ String.format("VALUES (%d, '%s', %d, %d, %f );", m_mid, p_name, p_year, p_position);
+					stmt.executeUpdate(sql);
+				}
+				numOfPlayersToInsert -= numOfPlayersPerMatch;
+			}
 
 			stmt.close();
 			c.commit();
@@ -142,32 +200,31 @@ public class PostgreSQLJDBC {
 		System.out.println("Records created successfully");
 	}
 	
-	public static ArrayList<String> readCSV(String filePath) throws IOException {
-		
-		BufferedReader bf = new BufferedReader(new FileReader(filePath));
-		
-		String extractedRow = "";
-		
-		String line = "";
-		
-		while((line = bf.readLine())  != null) {
+    private static String generateRound() {
+        String round = "";
+        int i = (int) (Math.random() * 5 );
+        switch(i) {
+        case 0: round = "32nd"; break;
+        case 1: round = "16th"; break;
+        case 2: round = "quarter_final"; break;
+        case 3: round = "SemiFinal"; break;
+        case 4: round = "Final"; break;
+        }
+        return round;
+    }
 
-			if (line != null) {
-				String[] array = line.split(",+");
-
-				for (String result : array) {
-					System.out.println(result);
-				}
-
-			}
-				
-		
-			
-		}
-		
-		
-		
-		return null;
+	private static int generatePlayerPosition() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
-	
+
+	private static String generatePlayerName() {
+		// TODO Auto-generated method stub
+		return "a player";
+	}
+
+	private static int getRandomNumBetweenTenAndZero() {
+		return ((int) Math.random() * 11);
+	}
+
 }
