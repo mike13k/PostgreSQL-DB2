@@ -154,7 +154,7 @@ public class PostgreSQLJDBC {
         boolean flag = false;
         int i = 0;
         while(!flag) {
-            i = (int) ((Math.random() * 77 ) + 1942);
+            i = (int) ((Math.random() * 73 ) + 1942);
             if((i%4) == 0)
                 flag = true;
         }
@@ -162,7 +162,7 @@ public class PostgreSQLJDBC {
     }
 
 	private static int generatePlayerPosition() {
-		int i = (int) (Math.random() * 5);
+		int i = (int) (Math.random() * 4) + 1;
         return i;
 	}
 
