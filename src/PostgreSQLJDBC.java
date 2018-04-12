@@ -1,10 +1,6 @@
 package src;
 
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -59,7 +55,8 @@ public class PostgreSQLJDBC {
 		System.out.println("Opened database successfully");
 	}
 
-	/**
+
+    /**
 	 * Write a program that populates the database with 2,680 matches and 58,960
 	 * players. We are specifying an exact number of tuples in each table for
 	 * consistency and usage in different parts in the assignment. You must insert
@@ -137,27 +134,35 @@ public class PostgreSQLJDBC {
 		}
 		System.out.println("Records created successfully");
 	}
+	
+    private static String generateRound() {
+        String round = "";
+        int i = (int) (Math.random() * 5 );
+        switch(i) {
+        case 0: round = "32nd"; break;
+        case 1: round = "16th"; break;
+        case 2: round = "quarter_final"; break;
+        case 3: round = "SemiFinal"; break;
+        case 4: round = "Final"; break;
+        }
+        return round;
+    }
 
-	private static String generateRound() {
-		// TODO Auto-generated method stub
-		return "Abc";
-	}
+    private static float generateRating() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	private static float generateRating() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    private static int generateNumRatings() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	private static int generateNumRatings() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	private static int generateYear() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+    private static int generateYear() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+    
 	private static int generatePlayerPosition() {
 		// TODO Auto-generated method stub
 		return 0;
