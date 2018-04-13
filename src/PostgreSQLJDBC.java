@@ -89,7 +89,8 @@ public class PostgreSQLJDBC {
 				sql = "INSERT INTO cup_matches (mid, round, year, num_ratings, rating) " + String
 						.format("VALUES (%d, '%s', %d, %d, %f );", m_mid, m_round, m_year, m_num_ratings, m_rating);
 				stmt.executeUpdate(sql);
-				System.out.println("Something added!");
+				if(matchesCreated % 1000 == 0 )
+					System.out.println("Until match " + matchesCreated + " added!");
 				// Insert a batch of players
 				for (int playersCreated = 1; playersCreated <= numOfPlayersPerMatch; playersCreated++) {
 					if (numOfPlayersNamedPeleToBeInserted > 0 && (getRandomNumBetweenTenAndZero() <= 3
