@@ -7,4 +7,6 @@ PDF Link: https://docs.google.com/document/d/1q_l8a9L2p_vUk89gOu0zhcdYEAVZlYwlap
 
 Michael Khalil  37-3063
 
-Ibram Medhat 37-676
+Ibram Medhat    37-676
+
+Basem Rizk      37-14415
